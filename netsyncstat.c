@@ -155,7 +155,7 @@ int transmitter(unsigned int port, unsigned int count, double interval_s, char *
 
 int listener(unsigned int port, unsigned int count, double interval_s, char *out_file) {
   int fd;
-  uint64_t *time_diff_ns;
+  int64_t *time_diff_ns;
   struct timespec now;
 
   if ( (fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
@@ -214,7 +214,7 @@ int listener(unsigned int port, unsigned int count, double interval_s, char *out
     sum_ns += time_diff_ns[i];
     sum_squared_ns += time_diff_ns[i]*time_diff_ns[i];
   }
-  average_ns = sum_ns/count;
+  average_ns = ((double) sum_ns)/count;
   stddev_ns = sqrt(sum_squared_ns/(count) - average_ns*average_ns);
   printf("##\n%f\n%f\n", average_ns, stddev_ns);
 
